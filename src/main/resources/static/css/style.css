@@ -1,0 +1,151 @@
+
+/* 共通 */
+body {
+ background-color: #1a1a44;
+ color: white;
+}
+div.border_line {
+    border-bottom: 2px solid gray;
+}
+
+div.alert {
+    text-align: center;
+    font-size: large;
+    font-style: italic;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+div.alert-error {
+    color: red;
+}
+
+
+/* ヘッダー */
+header.Area_header {
+    text-align: center;
+    font-size: x-large;
+    margin-bottom: 20px;
+}
+
+/* 投稿エリア */
+div.Area_register {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table.Area_register_table {
+    width: 40%;
+    margin: auto;
+}
+
+table.Area_register_table tbody {
+    width: 100%;
+}
+
+table.Area_register_table tbody tr {
+    width: 100%;
+}
+
+table.Area_register_table tbody tr td.heading {
+    width: 30%;
+}
+
+table.Area_register_table tbody tr td.body {
+    width: 70%;
+    text-align: left;
+}
+
+
+/* 投稿内容エリア */
+div.Area_articles {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+table.Area_articles_table {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+table.Area_articles_table tbody {
+    width: 100%;
+    text-align: left;
+}
+
+table.Area_articles_table tbody tr {
+    width: 100%;
+}
+
+table.Area_articles_table tbody tr td pre {
+    margin: 0;
+}
+
+table.Area_articles_table tbody tr.Area_article_title {
+    background-color: #8888AA;
+    font-weight: bold;
+}
+
+table.Area_articles_table tbody tr.Area_article_title label {
+    display: block;
+    position: relative;
+    padding-left: 1em;
+}
+
+table.Area_articles_table tbody tr.Area_article_title label input {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 2px;
+    left: 0;
+    margin: auto;
+}
+
+/* 記事の編集削除エリア */
+div.Area_change_article {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+/* ページング */
+div.Area_pager {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+div.Area_pager a:link {
+    color: white;
+    text-decoration-line: underline;
+}
+
+div.Area_pager a:visited {
+    color: white;
+}
+
+div.Area_pager ul {
+    padding: 0px;
+}
+
+div.Area_pager ul li {
+    display: inline;
+}
+
+div.Area_pager ul li.disabled {
+    color: gray;
+}
+
+/* 0件の時 */
+div.Area_no_data_message {
+    font-style: italic;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
