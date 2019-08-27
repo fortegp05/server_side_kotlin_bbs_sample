@@ -3,5 +3,5 @@
 
 以下のapplication.propertiesにDB接続先を書けば動作します。
 
-/src/main/resources/application.properties
+/src/main/resources/application.properties<BR>
 /src/test/resources/application.properties
