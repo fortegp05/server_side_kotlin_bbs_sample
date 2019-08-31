@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>サンプル掲示板</title>
-        <link rel="stylesheet" href="/css/style.css" />
-    </head>
-    <body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>サンプル掲示板 編集画面</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
 
-        <header class="Area_header">投稿内容の更新</header>
+<header class="Area_header">投稿内容の更新</header>
 
-        <div class="Area_register">
-            <form th:action="@{/update}" th:method="post" th:object="${article}">
-                <table border="1"  class="Area_register_table">
-                    <tr>
-                        <td class="heading">名前</td>
-                        <td class="body">
-                            <input type="text" name="name" size="50" th:field="*{name}">
-                            <div th:if="${#fields.hasErrors('name')}" class="alert-error" th:errors="*{name}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="heading">題名</td>
-                        <td class="body">
-                            <input type="text" name="title" size="50" th:field="*{title}">
-                            <div th:if="${#fields.hasErrors('title')}" class="alert-error" th:errors="*{title}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="heading">内容</td>
-                        <td class="body">
-                            <textarea name="contents" rows="6" cols="65" th:field="*{contents}"></textarea>
-                            <div th:if="${#fields.hasErrors('contents')}" class="alert-error" th:errors="*{contents}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            投稿Key　<input type="text" value="" name="articleKey">
-                            <div th:if="${#fields.hasErrors('articleKey')}" class="alert-error" th:errors="*{articleKey}"></div>
-                            <button type="submit">更新</button>
-                            <button type="reset">リセット</button>
-                        </td>
-                    </tr>
-                </table>
+<div th:class="'alert ' + *{alert_class}" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}"></div>
 
-                <input type="hidden" name="id" th:field="*{id}">
-            </form>
-        </div>
-    </body>
+<div class="Area_register">
+    <form th:action="@{/update}" th:method="post" th:object="${article}">
+        <table border="1"  class="Area_register_table">
+            <tr>
+                <td class="heading">名前</td>
+                <td class="body">
+                    <input type="text" name="name" size="50" th:field="*{name}">
+                    <div th:if="${#fields.hasErrors('name')}" class="alert-error" th:errors="*{name}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="heading">題名</td>
+                <td class="body">
+                    <input type="text" name="title" size="50" th:field="*{title}">
+                    <div th:if="${#fields.hasErrors('title')}" class="alert-error" th:errors="*{title}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="heading">内容</td>
+                <td class="body">
+                    <textarea name="contents" rows="6" cols="65" th:field="*{contents}"></textarea>
+                    <div th:if="${#fields.hasErrors('contents')}" class="alert-error" th:errors="*{contents}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    投稿Key　<input type="text" value="" name="articleKey">
+                    <div th:if="${#fields.hasErrors('articleKey')}" class="alert-error" th:errors="*{articleKey}"></div>
+
+                    <button type="submit">更新</button>
+                    <button type="reset">リセット</button>
+                </td>
+            </tr>
+        </table>
+
+        <input type="hidden" name="id" th:field="*{id}">
+    </form>
+</div>
+</body>
 </html>

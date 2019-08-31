@@ -5,46 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>サンプル掲示板</title>
         <link rel="stylesheet" href="/css/style.css" />
-        <script type="text/javascript">
-            function changeArticleSubmit(type) {
-                let changeArticleForm = document.form_change_article
-                let checks = document.getElementsByName("article_check")
-                let articleId = null;
-
-                // 選択済みのものがあるかチェック
-                for (let index=0; index < checks.length; index++) {
-                    if (checks[index].checked) {
-                        articleId = checks[index].getAttribute("data-id")
-                        break;
-                    }
-                }
-                if (articleId == null) {
-                    alert("記事を選択してください。")
-                    return;
-                }
-
-                // 更新か削除によって飛び先を決定する
-                switch (type) {
-                    case "update":
-                        changeArticleForm.action = "/edit/" + articleId
-                        changeArticleForm.submit()
-                        break;
-                    case "delete":
-                        changeArticleForm.action = "/delete/confirm/" + articleId
-                        changeArticleForm.submit()
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            function scrollToAreaChangeArticle() {
-                window.scrollTo({
-                    top: document.documentElement.scrollHeight - document.documentElement.clientHeight,
-                    behavior: "smooth"
-                });
-            }
-        </script>
+        <script src="js/index.js"></script>
     </head>
     <body>
 
@@ -58,24 +19,25 @@
                     <tr>
                         <td class="heading">名前</td>
                         <td class="body">
-                            <input type="text" name="name" th:value="*{name}" size="50">
+                            <input type="text" name="name" size="50" th:value="*{name}" >
                             <div th:if="${#fields.hasErrors('name')}" class="alert-error" th:errors="*{name}"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="heading">題名</td>
                         <td class="body">
-                            <input type="text" name="title" th:value="*{title}" size="50">
+                            <input type="text" name="title" size="50" th:value="*{title}" >
                             <div th:if="${#fields.hasErrors('title')}" class="alert-error" th:errors="*{title}"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="heading">内容</td>
                         <td class="body">
-                            <textarea name="contents" rows="6" cols="65" maxlength="500" th:text="*{contents}"></textarea>
+                            <textarea name="contents" rows="6" cols="65"
+                                      maxlength="500" th:text="*{contents}"></textarea>
                             <div th:if="${#fields.hasErrors('contents')}" class="alert-error" th:errors="*{contents}"></div>
 
-                            投稿Key：<input type="text" th:value="*{articleKey}" name="articleKey" maxlength="4">
+                            投稿Key：<input type="text" name="articleKey" maxlength="4">
                             <div th:if="${#fields.hasErrors('articleKey')}" class="alert-error" th:errors="*{articleKey}"></div>
                         </td>
                     </tr>
@@ -90,8 +52,6 @@
         </div>
 
         <div class="border_line"></div>
-
-        <div class="Area_no_data_message" th:if="${page.content.size()}==0">投稿されていません。</div>
 
         <div class="Area_articles" th:each="article:${page}" th:object="${article}">
             <div>
@@ -116,7 +76,7 @@
             </div>
         </div>
 
-        <div th:fragment="pagination" th:if="${page.totalPages}" class="Area_pager">
+        <div th:if="${page.totalPages}" class="Area_pager">
 
             <div class="border_line"></div>
 
@@ -146,7 +106,7 @@
         </div>
 
         <div class="Area_change_article">
-            <form th:action="@{/edit}" th:method="get" name="form_change_article">
+            <form th:action="@{/}" th:method="get" name="form_change_article">
                 <button type="button" onclick="changeArticleSubmit('update')">編集</button>
                 <button type="button" onclick="changeArticleSubmit('delete')">削除</button>
             </form>

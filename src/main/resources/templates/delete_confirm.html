@@ -3,16 +3,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>サンプル掲示板</title>
+        <title>サンプル掲示板 削除確認画面</title>
         <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body>
 
         <header class="Area_header">投稿内容の削除</header>
 
+        <div th:class="'alert ' + *{alert_class}" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}"></div>
+
         <div class="Area_register">
             <form th:action="@{/delete}" th:method="post" th:object="${article}">
-                <table border="1"  class="Area_register_table">
+                <table border="1" class="Area_register_table">
                     <tr>
                         <td class="heading">名前</td>
                         <td class="body" th:text="*{name}"></td>
@@ -33,6 +35,7 @@
                         <td colspan="2">
                             投稿Key　<input type="text" value="" name="articleKey">
                             <div th:if="${#fields.hasErrors('articleKey')}" class="alert-error" th:errors="*{articleKey}"></div>
+
                             <button type="submit">削除</button>
                             <button type="button" onclick="history.back()">戻る</button>
                         </td>
@@ -40,9 +43,6 @@
                 </table>
 
                 <input type="hidden" name="id" th:field="*{id}">
-                <input type="hidden" name="name" th:field="*{name}">
-                <input type="hidden" name="title" th:field="*{title}">
-                <input type="hidden" name="contents" th:field="*{contents}">
             </form>
         </div>
     </body>

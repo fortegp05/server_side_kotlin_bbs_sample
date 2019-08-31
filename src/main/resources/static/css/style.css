@@ -4,6 +4,7 @@ body {
  background-color: #1a1a44;
  color: white;
 }
+
 div.border_line {
     border-bottom: 2px solid gray;
 }
@@ -27,6 +28,7 @@ header.Area_header {
     font-size: x-large;
     margin-bottom: 20px;
 }
+
 
 /* 投稿エリア */
 div.Area_register {
@@ -104,6 +106,7 @@ table.Area_articles_table tbody tr.Area_article_title label input {
     margin: auto;
 }
 
+
 /* 記事の編集削除エリア */
 div.Area_change_article {
     width: 100%;
@@ -139,13 +142,4 @@ div.Area_pager ul li {
 
 div.Area_pager ul li.disabled {
     color: gray;
-}
-
-/* 0件の時 */
-div.Area_no_data_message {
-    font-style: italic;
-    width: 100%;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }

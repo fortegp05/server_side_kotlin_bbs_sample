@@ -1,6 +1,7 @@
 package com.example.app.bbs.app.request
 
-import javax.validation.constraints.*
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Size
 
 data class ArticleRequest (
         var id : Int = 0,

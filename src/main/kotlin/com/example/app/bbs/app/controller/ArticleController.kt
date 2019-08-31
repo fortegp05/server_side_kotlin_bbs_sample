@@ -8,55 +8,70 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
-import org.springframework.data.domain.Sort.Direction
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.util.*
 
 @Controller
 class ArticleController {
 
     val PAGE_SIZE: Int = 10
 
+    val MESSAGE_REGISTER_NORMAL = "正常に投稿できました。"
+    val MESSAGE_ARTICLE_DOES_NOT_EXISTS = "対象の記事が見つかりませんでした。"
+    val MESSAGE_UPDATE_NORMAL = "正常に更新しました。"
+    val MESSAGE_ARTICLE_KEY_UNMATCH = "投稿KEYが一致しません。"
+    val MESSAGE_DELETE_NORMAL = "正常に削除しました。"
+
     @Autowired
     lateinit var articleRepository : ArticleRepository
 
-//    @GetMapping("/seed")
-//    @ResponseBody
-//    fun seed(): String {
-//        for (i in 1..50) {
-//            var article = Article()
-//            article.name = "name_$i"
-//            article.title = "title_$i"
-//            article.contents = "contents_$i"
-//            article.articleKey = "1234"
-//            articleRepository.save(article)
-//        }
-//
-//        return "Finish"
-//    }
+    @GetMapping("/seed")
+    @ResponseBody
+    fun seed(): String {
+        for (i in 1..50) {
+            var article = Article()
+            article.name = "name_$i"
+            article.title = "title_$i"
+            article.contents = "contents_$i"
+            article.articleKey = "1234"
+            articleRepository.save(article)
+        }
 
+        return "Finish"
+    }
 
     @PostMapping("/")
-    fun registerArticle(@Validated @ModelAttribute articleRequest: ArticleRequest, result: BindingResult
-                        , redirectAttributes: RedirectAttributes, model: Model
-    ): String {
-        return if (result.hasErrors()) {
+    fun registerArticle(@Validated @ModelAttribute articleRequest: ArticleRequest,
+                        result: BindingResult,
+                        redirectAttributes: RedirectAttributes): String {
+
+        if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", result)
             redirectAttributes.addFlashAttribute("request", articleRequest)
 
-            "redirect:/"
-        } else {
-            articleRepository.save(getArticle(articleRequest))
-
-            redirectAttributes.addFlashAttribute("message", "正常に投稿できました。")
-            redirectAttributes.addFlashAttribute("alert_class", "alert-success")
-
-            "redirect:/"
+            return "redirect:/"
         }
+
+        articleRepository.save(
+            Article(
+                articleRequest.id,
+                articleRequest.name,
+                articleRequest.title,
+                articleRequest.contents,
+                articleRequest.articleKey
+            )
+        )
+
+        redirectAttributes.addFlashAttribute(
+            "message", MESSAGE_REGISTER_NORMAL
+        )
+
+        return "redirect:/"
     }
 
     @GetMapping("/")
@@ -68,11 +83,11 @@ class ArticleController {
         val pageable: Pageable = PageRequest.of(
             page,
             this.PAGE_SIZE,
-            Sort(Direction.DESC, "updateAt").and(Sort(Direction.ASC, "id"))
+            Sort(Sort.Direction.DESC, "updateAt").and(Sort(Sort.Direction.ASC, "id"))
         )
 
-        val key: String = BindingResult.MODEL_KEY_PREFIX + "articleRequest"
         if (model.containsAttribute("errors")) {
+            val key: String = BindingResult.MODEL_KEY_PREFIX + "articleRequest"
             model.addAttribute(key, model.asMap()["errors"])
         }
 
@@ -86,70 +101,76 @@ class ArticleController {
         return "index"
     }
 
+
     @GetMapping("/edit/{id}")
-    fun getArticleEdit(@PathVariable id: Int, model : Model, redirectAttributes: RedirectAttributes) : String {
+    fun getArticleEdit(@PathVariable id: Int, model: Model, redirectAttributes: RedirectAttributes) : String {
 
         return if (articleRepository.existsById(id)) {
-
             if (model.containsAttribute("request")) {
                 model.addAttribute("article", model.asMap()["request"])
             } else {
                 model.addAttribute("article", articleRepository.findById(id).get())
             }
 
-            val key: String = BindingResult.MODEL_KEY_PREFIX + "article"
             if (model.containsAttribute("errors")) {
+                val key: String = BindingResult.MODEL_KEY_PREFIX + "article"
                 model.addAttribute(key, model.asMap()["errors"])
             }
 
             "edit"
         } else {
-            redirectAttributes.addFlashAttribute("message", "対象の記事が見つかりませんでした。")
+            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_DOES_NOT_EXISTS)
 
             "redirect:/"
         }
     }
 
     @PostMapping("/update")
-    fun updateArticle(@Validated articleRequest: ArticleRequest, result: BindingResult
-                      , redirectAttributes: RedirectAttributes) : String {
-
-        val newArticle = getArticle(articleRequest)
+    fun updateArticle(@Validated articleRequest: ArticleRequest, result: BindingResult,
+                      redirectAttributes: RedirectAttributes
+    ) : String {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", result)
             redirectAttributes.addFlashAttribute("request", articleRequest)
 
-            return "redirect:/edit/${newArticle.id}"
+            return "redirect:/edit/${articleRequest.id}"
         }
 
-        val article: Article = articleRepository.findById(newArticle.id).orElse(Article())
+        if (!articleRepository.existsById(articleRequest.id)) {
+            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_DOES_NOT_EXISTS)
 
-        if (existsArticle(newArticle, article)) {
-            newArticle.articleKey = article.articleKey
-            newArticle.registerAt = article.registerAt
-            articleRepository.save(newArticle)
+            return "redirect:/"
+        }
 
-            redirectAttributes.addFlashAttribute("message", "正常に更新しました。")
-            redirectAttributes.addFlashAttribute("alert_class", "alert-success")
+        val article: Article = articleRepository.findById(articleRequest.id).get()
+
+        return if (articleRequest.articleKey == article.articleKey) {
+            article.name = articleRequest.name
+            article.title = articleRequest.title
+            article.contents = articleRequest.contents
+            article.updateAt = Date()
+
+            articleRepository.save(article)
+
+            redirectAttributes.addFlashAttribute("message", MESSAGE_UPDATE_NORMAL)
+
+            "redirect:/"
         } else {
-            redirectAttributes.addFlashAttribute("message", "更新に失敗したので、もう一度お試しください。")
-            redirectAttributes.addFlashAttribute("alert_class", "alert-error")
-        }
+            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_KEY_UNMATCH)
 
-        return "redirect:/"
+            "redirect:/edit/${articleRequest.id}"
+        }
     }
 
+
     @GetMapping("/delete/confirm/{id}")
-    fun getDeleteConfirm(@PathVariable id: Int, model : Model, redirectAttributes: RedirectAttributes) : String {
+    fun getDeleteConfirm(@PathVariable id: Int, model : Model,
+                         redirectAttributes: RedirectAttributes
+    ) : String {
 
         return if (articleRepository.existsById(id)) {
-
-            if (model.containsAttribute("request")) {
-                model.addAttribute("article", model.asMap()["request"])
-            } else {
-                model.addAttribute("article", articleRepository.findById(id).get())
-            }
+            model.addAttribute("article", articleRepository.findById(id).get())
 
             val key: String = BindingResult.MODEL_KEY_PREFIX + "article"
             if (model.containsAttribute("errors")) {
@@ -158,50 +179,42 @@ class ArticleController {
 
             "delete_confirm"
         } else {
-            redirectAttributes.addFlashAttribute("message", "対象の記事が見つかりませんでした。")
+            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_DOES_NOT_EXISTS)
 
             "redirect:/"
         }
     }
 
     @PostMapping("/delete")
-    fun deleteArticle(@Validated @ModelAttribute articleRequest: ArticleRequest,  result: BindingResult
-                      , redirectAttributes: RedirectAttributes) : String {
+    fun deleteArticle(@Validated @ModelAttribute articleRequest: ArticleRequest,  result: BindingResult,
+                      redirectAttributes: RedirectAttributes
 
-        val deleteArticle = getArticle(articleRequest)
+    ) : String {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", result)
-            redirectAttributes.addFlashAttribute("request", articleRequest)
 
-            return "redirect:/delete/confirm/${deleteArticle.id}"
+            return "redirect:/delete/confirm/${articleRequest.id}"
         }
 
-        val article = articleRepository.findById(deleteArticle.id).orElse(Article())
+        if (!articleRepository.existsById(articleRequest.id)) {
+            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_DOES_NOT_EXISTS)
 
-        if (existsArticle(deleteArticle, article)) {
-            articleRepository.deleteById(deleteArticle.id)
+            return "redirect:/"
+        }
 
-            redirectAttributes.addFlashAttribute("message", "正常に削除しました。")
-            redirectAttributes.addFlashAttribute("alert_class", "alert-success")
+        val article: Article = articleRepository.findById(articleRequest.id).get()
+
+        return if (articleRequest.articleKey == article.articleKey) {
+            articleRepository.deleteById(articleRequest.id)
+
+            redirectAttributes.addFlashAttribute("message", MESSAGE_DELETE_NORMAL)
+
+            "redirect:/"
         } else {
-            redirectAttributes.addFlashAttribute("message", "投稿Keyが一致しませんでした。")
-            redirectAttributes.addFlashAttribute("alert_class", "alert-error")
+            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_KEY_UNMATCH)
+
+            "redirect:/delete/confirm/${article.id}"
         }
-
-        return "redirect:/"
-    }
-
-    private fun getArticle(request: ArticleRequest): Article {
-        return Article(request.id,
-                request.name,
-                request.title,
-                request.contents,
-                request.articleKey)
-    }
-
-    private fun existsArticle(request: Article, article: Article): Boolean {
-        return request.id == article.id
-                && request.articleKey == article.articleKey
     }
 }
