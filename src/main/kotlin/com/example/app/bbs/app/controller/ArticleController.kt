@@ -145,22 +145,22 @@ class ArticleController {
 
         val article: Article = articleRepository.findById(articleRequest.id).get()
 
-        return if (articleRequest.articleKey == article.articleKey) {
-            article.name = articleRequest.name
-            article.title = articleRequest.title
-            article.contents = articleRequest.contents
-            article.updateAt = Date()
-
-            articleRepository.save(article)
-
-            redirectAttributes.addFlashAttribute("message", MESSAGE_UPDATE_NORMAL)
-
-            "redirect:/"
-        } else {
+        if (articleRequest.articleKey != article.articleKey) {
             redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_KEY_UNMATCH)
 
-            "redirect:/edit/${articleRequest.id}"
+            return "redirect:/edit/${articleRequest.id}"
         }
+
+        article.name = articleRequest.name
+        article.title = articleRequest.title
+        article.contents = articleRequest.contents
+        article.updateAt = Date()
+
+        articleRepository.save(article)
+
+        redirectAttributes.addFlashAttribute("message", MESSAGE_UPDATE_NORMAL)
+
+        return "redirect:/"
     }
 
 
@@ -169,20 +169,20 @@ class ArticleController {
                          redirectAttributes: RedirectAttributes
     ) : String {
 
-        return if (articleRepository.existsById(id)) {
-            model.addAttribute("article", articleRepository.findById(id).get())
-
-            val key: String = BindingResult.MODEL_KEY_PREFIX + "article"
-            if (model.containsAttribute("errors")) {
-                model.addAttribute(key, model.asMap()["errors"])
-            }
-
-            "delete_confirm"
-        } else {
+        if (!articleRepository.existsById(id)) {
             redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_DOES_NOT_EXISTS)
 
-            "redirect:/"
+            return "redirect:/"
         }
+
+        model.addAttribute("article", articleRepository.findById(id).get())
+
+        val key: String = BindingResult.MODEL_KEY_PREFIX + "article"
+        if (model.containsAttribute("errors")) {
+            model.addAttribute(key, model.asMap()["errors"])
+        }
+
+        return "delete_confirm"
     }
 
     @PostMapping("/delete")
@@ -205,16 +205,18 @@ class ArticleController {
 
         val article: Article = articleRepository.findById(articleRequest.id).get()
 
-        return if (articleRequest.articleKey == article.articleKey) {
-            articleRepository.deleteById(articleRequest.id)
+        if (articleRequest.articleKey != article.articleKey) {
+            redirectAttributes.addFlashAttribute("message",
+                    MESSAGE_ARTICLE_KEY_UNMATCH)
 
-            redirectAttributes.addFlashAttribute("message", MESSAGE_DELETE_NORMAL)
-
-            "redirect:/"
-        } else {
-            redirectAttributes.addFlashAttribute("message", MESSAGE_ARTICLE_KEY_UNMATCH)
-
-            "redirect:/delete/confirm/${article.id}"
+            return "redirect:/delete/confirm/${article.id}"
         }
+
+        articleRepository.deleteById(articleRequest.id)
+
+        redirectAttributes.addFlashAttribute("message",
+                MESSAGE_DELETE_NORMAL)
+
+        return "redirect:/"
     }
 }

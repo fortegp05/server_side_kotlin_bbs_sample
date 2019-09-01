@@ -68,6 +68,7 @@ class ArticleControllerTests {
         .andExpect(view().name("index"))
     }
 
+
     @Test
     fun getArticleEditNotExistsIdTest() {
 
@@ -91,7 +92,6 @@ class ArticleControllerTests {
         .andExpect(status().isOk)
         .andExpect(view().name("edit"))
     }
-
 
     @Test
     fun updateArticleNotExistsArticleTest() {
@@ -123,7 +123,7 @@ class ArticleControllerTests {
                         .param("articleKey", "err.")
         )
         .andExpect(status().is3xxRedirection)
-        .andExpect(view().name("redirect:/edit/${latestArticle.id.toString()}"))
+        .andExpect(view().name("redirect:/edit/${latestArticle.id}"))
         .andExpect(flash().attributeExists<String>("message"))
         .andExpect(flash().attribute<String>("message", target.MESSAGE_ARTICLE_KEY_UNMATCH))
     }

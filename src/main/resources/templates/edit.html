@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    投稿Key　<input type="text" value="" name="articleKey">
+                    投稿Key　<input type="password" value="" name="articleKey">
                     <div th:if="${#fields.hasErrors('articleKey')}" class="alert-error" th:errors="*{articleKey}"></div>
 
                     <button type="submit">更新</button>
