@@ -1,8 +1,7 @@
-
 /* 共通 */
 body {
- background-color: #1a1a44;
- color: white;
+ background-color: white;
+ color: black;
 }
 
 div.border_line {
@@ -28,7 +27,6 @@ header.Area_header {
     font-size: x-large;
     margin-bottom: 20px;
 }
-
 
 /* 投稿エリア */
 div.Area_register {
@@ -88,6 +86,7 @@ table.Area_articles_table tbody tr td pre {
 
 table.Area_articles_table tbody tr.Area_article_title {
     background-color: #8888AA;
+    color: white;
     font-weight: bold;
 }
 
@@ -124,12 +123,12 @@ div.Area_pager {
 }
 
 div.Area_pager a:link {
-    color: white;
+    color: black;
     text-decoration-line: underline;
 }
 
 div.Area_pager a:visited {
-    color: white;
+    color: black;
 }
 
 div.Area_pager ul {

@@ -32,7 +32,8 @@ function changeArticleSubmit(type) {
 
 function scrollToAreaChangeArticle() {
     window.scrollTo({
-        top: document.documentElement.scrollHeight - document.documentElement.clientHeight,
+        top: document.documentElement.scrollHeight
+         - document.documentElement.clientHeight,
         behavior: "smooth"
     });
 }
