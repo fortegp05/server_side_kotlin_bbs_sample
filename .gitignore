@@ -32,3 +32,6 @@ out/
 .vscode/
 
 .DS_Store
+
+/docker/db/data
+/h2db

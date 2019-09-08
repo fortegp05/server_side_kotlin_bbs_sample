@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: bbs_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_database
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: password
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-initdb
+    ports:
+      - 3306:3306
