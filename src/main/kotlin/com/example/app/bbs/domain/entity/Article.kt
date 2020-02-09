@@ -16,5 +16,7 @@ data class Article (
         @Column(name = "register_at")
         var registerAt : Date = Date(),
         @Column(name = "update_at")
-        var updateAt : Date = Date()
+        var updateAt : Date = Date(),
+        @Column(name = "user_id")
+        var userId : Int? = null
 )

@@ -6,7 +6,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.web.servlet.MockMvc
@@ -16,21 +19,19 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest
+@AutoConfigureMockMvc
 class ArticleControllerTests {
+    @Autowired
     lateinit var mockMvc: MockMvc
 
     @Autowired
     lateinit var target: ArticleController
 
-    @Before
-    fun setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(target).build()
-    }
-
     @Test
     fun registerArticleTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/")
+                        .with(csrf())
                         .param("name", "test")
                         .param("title", "test")
                         .param("contents", "test")
@@ -47,6 +48,7 @@ class ArticleControllerTests {
     fun registerArticleRequestErrorTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/")
+                        .with(csrf())
                         .param("name", "")
                         .param("title", "")
                         .param("contents", "")
@@ -97,6 +99,7 @@ class ArticleControllerTests {
     fun updateArticleNotExistsArticleTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/update")
+                        .with(csrf())
                         .param("id", "0")
                         .param("name", "test")
                         .param("title", "test")
@@ -119,6 +122,7 @@ class ArticleControllerTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/update")
+                        .with(csrf())
                         .param("id", latestArticle.id.toString())
                         .param("name", latestArticle.name)
                         .param("title", latestArticle.title)
@@ -143,6 +147,7 @@ class ArticleControllerTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/update")
+                        .with(csrf())
                         .param("id", latestArticle.id.toString())
                         .param("name", latestArticle.name)
                         .param("title", latestArticle.title)
@@ -160,6 +165,7 @@ class ArticleControllerTests {
     fun updateArticleRequestErrorTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/update")
+                        .with(csrf())
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/edit/0"))
@@ -199,6 +205,7 @@ class ArticleControllerTests {
     fun deleteArticleNotExistsArticleTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/delete")
+                        .with(csrf())
                         .param("id", "0")
                         .param("name", "test")
                         .param("title", "test")
@@ -219,6 +226,7 @@ class ArticleControllerTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/delete")
+                        .with(csrf())
                         .param("id", latestArticle.id.toString())
                         .param("name", latestArticle.name)
                         .param("title", latestArticle.title)
@@ -241,6 +249,7 @@ class ArticleControllerTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/delete")
+                        .with(csrf())
                         .param("id", latestArticle.id.toString())
                         .param("name", latestArticle.name)
                         .param("title", latestArticle.title)
@@ -258,6 +267,7 @@ class ArticleControllerTests {
     fun deleteArticleRequestErrorTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/delete")
+                        .with(csrf())
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/delete/confirm/0"))

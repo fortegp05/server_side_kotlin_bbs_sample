@@ -1,6 +1,7 @@
 package com.example.app.bbs.app.controller
 
 import com.example.app.bbs.app.request.ArticleRequest
+import com.example.app.bbs.app.service.UserDetailsImpl
 import com.example.app.bbs.domain.entity.Article
 import com.example.app.bbs.domain.repository.ArticleRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,9 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Controller
 class ArticleController {
@@ -32,6 +36,10 @@ class ArticleController {
     @Autowired
     lateinit var articleRepository : ArticleRepository
 
+
+    @Autowired
+    lateinit var passwordEncoder: PasswordEncoder
+
 //    @GetMapping("/seed")
 //    @ResponseBody
 //    fun seed(): String {
@@ -45,6 +53,16 @@ class ArticleController {
 //        }
 //
 //        return "Finish"
+//    }
+
+//    @GetMapping("/encode")
+//    fun getUserIndex(
+//            model: Model
+//    ) : String {
+//
+//        System.out.println(passwordEncoder.encode("test3"))
+//
+//        return "redirect:/"
 //    }
 
     @PostMapping("/")

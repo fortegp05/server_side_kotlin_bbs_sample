@@ -1,0 +1,44 @@
+<div class="Area_articles"
+     th:each="article:${page}" th:object="${article}" th:fragment="fragment-articles">
+    <div>
+
+        <table border="1" class="Area_articles_table">
+            <tr class="Area_article_title">
+                <td>
+                    <label th:unless="${isAdmin}">
+                        <input type="radio"
+                               name="article_check"
+                               onclick="scrollToAreaChangeArticle()"
+                               th:data-id="*{id}"
+                               th:text="*{id} + '.　'
+                                 + *{title}"
+                        />
+                    </label>
+                    <input th:if="${isAdmin}"
+                           type="checkbox"
+                           name="article_checks"
+                           onclick="scrollToAreaChangeArticle()"
+                           th:value="*{id}"
+                           th:text="*{id} + '.　'
+                                 + *{title}"
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td th:text="'名前：' + *{name} + '　投稿日：'
+                         + ${#dates.format(article.registerAt,
+                           'yyyy/MM/dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <td>
+                    <pre th:text="*{contents}"></pre>
+                </td>
+            </tr>
+            <tr th:if="${isAdmin}" class="Area_article_row_right">
+                <td>
+                    <button type="button" th:onclick="'articleDelete(' + *{id} + ')'"> 削除 </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

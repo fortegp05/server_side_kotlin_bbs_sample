@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>サンプル掲示板 ユーザー画面</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+    <header class="Area_header">
+        <div class="Area_header_menu">
+            <a href="/user/logout">ログアウト</a>
+        </div>
+        <p>サンプル掲示板　ユーザー画面</p>
+        <div class="Area_info" th:text="|ログインユーザー名：${user.name}|"></div>
+    </header>
+
+    <div th:class="'alert ' + *{alert_class}" role="alert"
+         th:id="flash-message" th:if="${message}" th:text="${message}"></div>
+
+    <span th:replace="fragments/article_register :: fragment-article-register"></span>
+
+    <div class="border_line"></div>
+
+    <span th:replace="fragments/articles :: fragment-articles"></span>
+
+    <span th:replace="fragments/paging :: fragment-article-paging"></span>
+
+</body>
+</html>

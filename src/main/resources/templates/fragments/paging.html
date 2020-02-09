@@ -1,0 +1,32 @@
+<div th:if="${page.totalPages}" th:fragment="fragment-article-paging" class="Area_pager">
+
+    <div class="border_line"></div>
+
+    <ul>
+        <li th:class="${page.first} ? 'disabled' : ''">
+            <span th:if="${page.first}">＜＜</span>
+            <a th:if="${not page.first}" th:href="@{${url}(page=0)}">＜＜</a>
+        </li>
+        <li th:class="${page.first} ? 'disabled' : ''">
+            <span th:if="${page.first}">＜</span>
+            <a th:if="${not page.first}"
+               th:href="@{${url}(page=(${page.number}-1))}">＜</a>
+        </li>
+        <li th:class="${page.last} ? 'disabled' : ''">
+            <span th:if="${page.last}">＞</span>
+            <a th:if="${not page.last}"
+               th:href="@{${url}(page=(${page.number}+1))}">＞</a>
+        </li>
+        <li th:class="${page.last} ? 'disabled' : ''">
+            <span th:if="${page.last}">＞＞</span>
+            <a th:if="${not page.last}"
+               th:href="@{${url}(page=(${page.totalPages}-1))}">＞＞</a>
+        </li>
+    </ul>
+
+    <div><span th:text="${page.number+1} + '/'
+     + ${page.totalPages} + 'ページ'">1/3</span></div>
+
+    <div class="border_line"></div>
+
+</div>

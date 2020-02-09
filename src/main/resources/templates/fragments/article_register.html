@@ -1,0 +1,43 @@
+<div class="Area_register" th:fragment="fragment-article-register">
+    <form th:action="${user} ? @{/user/article/register} : @{/}" th:method="post" th:object="${articleRequest}">
+        <table border="1" class="Area_register_table">
+            <tr>
+                <td class="heading">名前</td>
+                <td class="body">
+                <input th:unless="${user}" type="text" name="name" size="50" th:value="*{name}" >
+                <input th:if="${user}" type="text" th:value="${user.name}" disabled>
+                <input th:if="${user}" type="hidden" name="name" th:value="${user.name}">
+                <div th:if="${#fields.hasErrors('name')}"
+                     class="alert-error" th:errors="*{name}"></div>
+            </td>
+            </tr>
+            <tr>
+                <td class="heading">題名</td>
+                <td class="body">
+                    <input type="text" name="title" size="50" th:value="*{title}" >
+                    <div th:if="${#fields.hasErrors('title')}"
+                         class="alert-error" th:errors="*{title}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="heading">内容</td>
+                <td class="body">
+                <textarea name="contents" rows="6" cols="65"
+                          maxlength="500" th:text="*{contents}"></textarea>
+                    <div th:if="${#fields.hasErrors('contents')}"
+                         class="alert-error" th:errors="*{contents}"></div>
+
+                    投稿KEY：<input type="password" name="articleKey" maxlength="4">
+                    <div th:if="${#fields.hasErrors('articleKey')}"
+                         class="alert-error" th:errors="*{articleKey}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">送信</button>
+                    <button type="reset">リセット</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
