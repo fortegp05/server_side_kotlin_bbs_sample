@@ -25,7 +25,7 @@ class UserValidator : Validator {
 
     override fun validate(target: Any, errors: Errors) {
         if (target !is User) {
-            errors.reject("target is not User Object!")
+            errors.reject("TAEGET_IS_NOT_USER_OBJECT")
             return
         }
 

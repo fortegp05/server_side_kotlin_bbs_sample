@@ -16,8 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AdminController {
 
     val MESSAGE_ARTICLE_DOES_NOT_EXISTS = "対象の記事が見つかりませんでした。"
-    val MESSAGE_ARTICLE_NOT_SELECTED = "削除する記事を選択してください。"
     val MESSAGE_DELETE_NORMAL = "正常に削除しました。"
+    val MESSAGE_ARTICLE_NOT_SELECTED = "削除する記事を選択してください。"
 
     val ALERT_CLASS_ERROR = "alert-error"
 
@@ -25,23 +25,6 @@ class AdminController {
 
     @Autowired
     lateinit var articleRepository : ArticleRepository
-
-    @GetMapping("/admin/login")
-    fun getUserLogin() : String {
-        return "admin_login"
-    }
-
-    @PostMapping("/admin/login/auth")
-    fun userLogin() : String {
-
-        return "redirect:/admin/index"
-    }
-
-    @PostMapping("/admin/logout")
-    fun userLogout() : String {
-
-        return "redirect:/"
-    }
 
     @GetMapping("/admin/index")
     fun getAdminIndex(@RequestParam(value = "page",
@@ -105,5 +88,22 @@ class AdminController {
                 MESSAGE_DELETE_NORMAL)
 
         return "redirect:/admin/index"
+    }
+
+    @GetMapping("/admin/login")
+    fun getAdminLogin() : String {
+        return "admin_login"
+    }
+
+    @PostMapping("/admin/login/auth")
+    fun adminLogin() : String {
+
+        return "redirect:/admin/index"
+    }
+
+    @PostMapping("/admin/logout")
+    fun adminLogout() : String {
+
+        return "redirect:/"
     }
 }

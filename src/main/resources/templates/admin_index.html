@@ -9,7 +9,12 @@
 </head>
 <body>
 
-    <header class="Area_header">サンプル掲示板 管理者画面</header>
+    <header class="Area_header">
+        <div class="Area_header_menu">
+            <a href="/admin/logout">ログアウト</a>
+        </div>
+        サンプル掲示板 管理者画面
+    </header>
 
     <div th:class="'alert ' + *{alert_class}" role="alert"
          th:id="flash-message" th:if="${message}" th:text="${message}"></div>
@@ -29,11 +34,5 @@
     <span th:replace="fragments/paging :: fragment-article-paging"></span>
 
     <form th:action="@{/admin/article/delete/}" th:method="post" name="form_delete_article"></form>
-
-    <div class="border_line"></div>
-
-    <form name="form_logout" method="post" th:action="@{/admin/logout}">
-        <button type="submit"> ログアウト </button>
-    </form>
 </body>
 </html>

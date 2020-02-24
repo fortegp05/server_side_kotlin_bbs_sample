@@ -1,21 +1,19 @@
 package com.example.app.bbs.unit.controller
 
 import com.example.app.bbs.app.controller.UserController
-import com.example.app.bbs.domain.entity.Article
 import com.example.app.bbs.domain.entity.UserRole
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest
@@ -34,7 +32,7 @@ class UserControllerTests {
                 MockMvcRequestBuilders
                         .get("/user/signup")
         )
-        .andExpect(MockMvcResultMatchers.status().isOk)
+        .andExpect(status().isOk)
     }
 
     @Test
@@ -49,12 +47,12 @@ class UserControllerTests {
                         .param("password","test1")
                         .param("role", UserRole.USER.toString())
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.view().name("redirect:/user/login"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(view().name("redirect:/user/login"))
     }
 
     @Test
-    @Sql(statements = ["INSERT INTO user (name, email, password, role) VALUES ('test2', 'test2@example.com', 'test2', 'USER');"])
+    @Sql(statements = ["INSERT INTO users (name, email, password, role) VALUES ('test2', 'test2@example.com', 'test2', 'USER');"])
     fun postUserSignupRegisteredErrorTest() {
 
         mockMvc.perform(
@@ -66,10 +64,10 @@ class UserControllerTests {
                         .param("password","test2")
                         .param("role", UserRole.USER.toString())
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.view().name("redirect:/user/signup"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("errors"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("request"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(view().name("redirect:/user/signup"))
+        .andExpect(flash().attributeExists<String>("errors"))
+        .andExpect(flash().attributeExists<String>("request"))
     }
 
     @Test
@@ -84,10 +82,10 @@ class UserControllerTests {
                         .param("password","a")
                         .param("role", UserRole.USER.toString())
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.view().name("redirect:/user/signup"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("errors"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("request"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(view().name("redirect:/user/signup"))
+        .andExpect(flash().attributeExists<String>("errors"))
+        .andExpect(flash().attributeExists<String>("request"))
     }
 
     @Test
@@ -102,10 +100,10 @@ class UserControllerTests {
                         .param("password","123456789012345")
                         .param("role", UserRole.USER.toString())
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.view().name("redirect:/user/signup"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("errors"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("request"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(view().name("redirect:/user/signup"))
+        .andExpect(flash().attributeExists<String>("errors"))
+        .andExpect(flash().attributeExists<String>("request"))
     }
 
     @Test
@@ -120,10 +118,10 @@ class UserControllerTests {
                         .param("password","あいうえお")
                         .param("role", UserRole.USER.toString())
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.view().name("redirect:/user/signup"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("errors"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("request"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(view().name("redirect:/user/signup"))
+        .andExpect(flash().attributeExists<String>("errors"))
+        .andExpect(flash().attributeExists<String>("request"))
     }
 
     @Test
@@ -138,10 +136,10 @@ class UserControllerTests {
                         .param("password","1234")
                         .param("role", UserRole.ADMIN.toString())
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.view().name("redirect:/user/signup"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("errors"))
-        .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("request"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(view().name("redirect:/user/signup"))
+        .andExpect(flash().attributeExists<String>("errors"))
+        .andExpect(flash().attributeExists<String>("request"))
     }
 
     @Test
@@ -151,11 +149,11 @@ class UserControllerTests {
                 MockMvcRequestBuilders
                         .get("/user/login")
         )
-        .andExpect(MockMvcResultMatchers.status().isOk)
+        .andExpect(status().isOk)
     }
 
     @Test
-    @Sql(statements = ["INSERT INTO user (name, email, password, role) VALUES ('test3', 'test3@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
+    @Sql(statements = ["INSERT INTO users (name, email, password, role) VALUES ('test3', 'test3@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
     fun userLoginAuthTest() {
 
         mockMvc.perform(
@@ -165,25 +163,37 @@ class UserControllerTests {
                         .param("email","test3@example.com")
                         .param("password","test3")
         )
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/"))
+        .andExpect(status().is3xxRedirection)
+        .andExpect(redirectedUrl("/"))
     }
 
     @Test
-    @Sql(statements = ["INSERT INTO user (name, email, password, role) VALUES ('test4', 'test4@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
+    @Sql(statements = ["INSERT INTO users (name, email, password, role) VALUES ('test4', 'test4@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
     @WithUserDetails(value = "test4")
-    fun authentication() {
+    fun authenticationTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/user/index")
         )
-        .andExpect(MockMvcResultMatchers.status().isOk)
-        .andExpect(MockMvcResultMatchers.model().attributeExists("page"))
-        .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
+        .andExpect(status().isOk)
+        .andExpect(model().attributeExists("page"))
+        .andExpect(model().attributeExists("user"))
     }
 
     @Test
-    @Sql(statements = ["INSERT INTO user (name, email, password, role) VALUES ('test5', 'test5@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
+    @Sql(statements = ["INSERT INTO users (name, email, password, role) VALUES ('test5', 'test5@example.com', 'dummy', 'USER');"])
     @WithUserDetails(value = "test5")
+    fun getUserIndexTest() {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/user/index")
+        )
+                .andExpect(status().isOk)
+    }
+
+    @Test
+    @Sql(statements = ["INSERT INTO users (name, email, password, role) VALUES ('test6', 'test5@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
+    @WithUserDetails(value = "test6")
     fun registerArticleTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/user/article/register")
@@ -193,16 +203,16 @@ class UserControllerTests {
                         .param("contents", "test")
                         .param("articleKey", "test")
         )
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/user/index"))
-                .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("message"))
-                .andExpect(MockMvcResultMatchers.flash().attribute<String>("message",
+                .andExpect(status().is3xxRedirection)
+                .andExpect(view().name("redirect:/user/index"))
+                .andExpect(flash().attributeExists<String>("message"))
+                .andExpect(flash().attribute<String>("message",
                         target.MESSAGE_REGISTER_NORMAL))
     }
 
     @Test
-    @Sql(statements = ["INSERT INTO user (name, email, password, role) VALUES ('test6', 'test6@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
-    @WithUserDetails(value = "test6")
+    @Sql(statements = ["INSERT INTO users (name, email, password, role) VALUES ('test7', 'test6@example.com', '\$2a\$10\$MMnbIXYB4BQI88yiKpiR2eiIIHiUEymGMyWqWlp01Iz.aqbD3ud4i', 'USER');"])
+    @WithUserDetails(value = "test7")
     fun registerArticleRequestErrorTest() {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/user/article/register")
@@ -212,9 +222,9 @@ class UserControllerTests {
                         .param("contents", "")
                         .param("articleKey", "")
         )
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/user/index"))
-                .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("errors"))
-                .andExpect(MockMvcResultMatchers.flash().attributeExists<String>("request"))
+                .andExpect(status().is3xxRedirection)
+                .andExpect(view().name("redirect:/user/index"))
+                .andExpect(flash().attributeExists<String>("errors"))
+                .andExpect(flash().attributeExists<String>("request"))
     }
 }
