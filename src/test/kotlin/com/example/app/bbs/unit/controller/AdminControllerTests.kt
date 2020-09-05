@@ -57,8 +57,8 @@ class AdminControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/admin/index"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_ARTICLE_DOES_NOT_EXISTS))
     }
 
@@ -75,8 +75,8 @@ class AdminControllerTests {
         )
         .andExpect(status().is3xxRedirection)
         .andExpect(view().name("redirect:/admin/index"))
-        .andExpect(flash().attributeExists<String>("message"))
-        .andExpect(flash().attribute<String>("message",
+        .andExpect(flash().attributeExists("message"))
+        .andExpect(flash().attribute("message",
                 target.MESSAGE_DELETE_NORMAL))
     }
 
@@ -91,8 +91,8 @@ class AdminControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/admin/index"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_ARTICLE_NOT_SELECTED))
     }
 
@@ -115,8 +115,8 @@ class AdminControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/admin/index"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_DELETE_NORMAL))
     }
 

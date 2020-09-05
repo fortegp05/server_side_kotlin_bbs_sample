@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.1.7.RELEASE"
-	id("io.spring.dependency-management") version "1.0.8.RELEASE"
-	kotlin("jvm") version "1.2.71"
-	kotlin("plugin.spring") version "1.2.71"
-	kotlin("plugin.jpa") version "1.2.71"
+	id("org.springframework.boot") version "2.3.3.RELEASE"
+	id("io.spring.dependency-management") version "1.0.10.RELEASE"
+	kotlin("jvm") version "1.4.0"
+	kotlin("plugin.spring") version "1.4.0"
+	kotlin("plugin.jpa") version "1.4.0"
 }
 
 group = "com.example.app"
@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("mysql:mysql-connector-java")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

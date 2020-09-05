@@ -101,8 +101,8 @@ class ArticleController {
         val pageable: Pageable = PageRequest.of(
                 page,
                 this.PAGE_SIZE,
-                Sort(Sort.Direction.DESC, "updateAt")
-                        .and(Sort(Sort.Direction.ASC, "id"))
+                Sort.by(Sort.Direction.DESC, "updateAt")
+                        .and(Sort.by(Sort.Direction.ASC, "id"))
         )
 
         if (model.containsAttribute("errors")) {

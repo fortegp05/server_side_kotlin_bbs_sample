@@ -66,8 +66,8 @@ class UserControllerTests {
         )
         .andExpect(status().is3xxRedirection)
         .andExpect(view().name("redirect:/user/signup"))
-        .andExpect(flash().attributeExists<String>("errors"))
-        .andExpect(flash().attributeExists<String>("request"))
+        .andExpect(flash().attributeExists("errors"))
+        .andExpect(flash().attributeExists("request"))
     }
 
     @Test
@@ -84,8 +84,8 @@ class UserControllerTests {
         )
         .andExpect(status().is3xxRedirection)
         .andExpect(view().name("redirect:/user/signup"))
-        .andExpect(flash().attributeExists<String>("errors"))
-        .andExpect(flash().attributeExists<String>("request"))
+        .andExpect(flash().attributeExists("errors"))
+        .andExpect(flash().attributeExists("request"))
     }
 
     @Test
@@ -102,8 +102,8 @@ class UserControllerTests {
         )
         .andExpect(status().is3xxRedirection)
         .andExpect(view().name("redirect:/user/signup"))
-        .andExpect(flash().attributeExists<String>("errors"))
-        .andExpect(flash().attributeExists<String>("request"))
+        .andExpect(flash().attributeExists("errors"))
+        .andExpect(flash().attributeExists("request"))
     }
 
     @Test
@@ -120,8 +120,8 @@ class UserControllerTests {
         )
         .andExpect(status().is3xxRedirection)
         .andExpect(view().name("redirect:/user/signup"))
-        .andExpect(flash().attributeExists<String>("errors"))
-        .andExpect(flash().attributeExists<String>("request"))
+        .andExpect(flash().attributeExists("errors"))
+        .andExpect(flash().attributeExists("request"))
     }
 
     @Test
@@ -138,8 +138,8 @@ class UserControllerTests {
         )
         .andExpect(status().is3xxRedirection)
         .andExpect(view().name("redirect:/user/signup"))
-        .andExpect(flash().attributeExists<String>("errors"))
-        .andExpect(flash().attributeExists<String>("request"))
+        .andExpect(flash().attributeExists("errors"))
+        .andExpect(flash().attributeExists("request"))
     }
 
     @Test
@@ -205,8 +205,8 @@ class UserControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/user/index"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_REGISTER_NORMAL))
     }
 
@@ -224,7 +224,7 @@ class UserControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/user/index"))
-                .andExpect(flash().attributeExists<String>("errors"))
-                .andExpect(flash().attributeExists<String>("request"))
+                .andExpect(flash().attributeExists("errors"))
+                .andExpect(flash().attributeExists("request"))
     }
 }

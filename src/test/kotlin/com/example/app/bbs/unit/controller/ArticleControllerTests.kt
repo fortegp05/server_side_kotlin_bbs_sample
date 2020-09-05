@@ -38,8 +38,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_REGISTER_NORMAL))
     }
 
@@ -54,8 +54,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("errors"))
-                .andExpect(flash().attributeExists<String>("request"))
+                .andExpect(flash().attributeExists("errors"))
+                .andExpect(flash().attributeExists("request"))
     }
 
 
@@ -105,10 +105,10 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_ARTICLE_DOES_NOT_EXISTS))
-                .andExpect(flash().attribute<String>("alert_class",
+                .andExpect(flash().attribute("alert_class",
                         target.ALERT_CLASS_ERROR))
     }
 
@@ -129,10 +129,10 @@ class ArticleControllerTests {
                 .andExpect(
                         view().name("redirect:/edit/${latestArticle.id.toString()}")
                 )
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_ARTICLE_KEY_UNMATCH))
-                .andExpect(flash().attribute<String>("alert_class",
+                .andExpect(flash().attribute("alert_class",
                         target.ALERT_CLASS_ERROR))
     }
 
@@ -151,8 +151,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_UPDATE_NORMAL))
     }
 
@@ -163,8 +163,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/edit/0"))
-                .andExpect(flash().attributeExists<String>("errors"))
-                .andExpect(flash().attributeExists<String>("request"))
+                .andExpect(flash().attributeExists("errors"))
+                .andExpect(flash().attributeExists("request"))
     }
 
 
@@ -176,8 +176,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message", target.MESSAGE_ARTICLE_DOES_NOT_EXISTS))
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message", target.MESSAGE_ARTICLE_DOES_NOT_EXISTS))
     }
 
 
@@ -207,8 +207,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_ARTICLE_DOES_NOT_EXISTS))
     }
 
@@ -229,8 +229,8 @@ class ArticleControllerTests {
                 .andExpect(view().name(
                         "redirect:/delete/confirm/${latestArticle.id.toString()}")
                 )
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_ARTICLE_KEY_UNMATCH))
     }
 
@@ -249,8 +249,8 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/"))
-                .andExpect(flash().attributeExists<String>("message"))
-                .andExpect(flash().attribute<String>("message",
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message",
                         target.MESSAGE_DELETE_NORMAL))
     }
 
@@ -261,7 +261,7 @@ class ArticleControllerTests {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(view().name("redirect:/delete/confirm/0"))
-                .andExpect(flash().attributeExists<String>("errors"))
-                .andExpect(flash().attributeExists<String>("request"))
+                .andExpect(flash().attributeExists("errors"))
+                .andExpect(flash().attributeExists("request"))
     }
 }
